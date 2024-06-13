@@ -151,17 +151,26 @@ const deleteAccessToken = async (deleteDocumentId) => {
 // DIBAWAH INI BELUM KELAR
 const getUserData = async (userId) => {
   const db = getFirestore();
+  const docRef = doc(db, "users", userId); // Get document reference
+  const docSnap = await getDoc(docRef); // Fetch document snapshot
+
+  if (docSnap.exists()) {
+    return docSnap.data(); // Return user data if document exists
+  } else {
+    return null; // Return null if user data not found
+  }
   // let userData = null;
   // const snapshot = await getDocs(collection(db, "users"));
   // console.log(snapshot);
   // snapshot.forEach((doc) => {
   //   doc.id === userId ? (userData = doc.data()) : null;
   // });
-  return userData;
+  // return userData;
 };
 
 const updateUserData = async (userId, userData) => {
   const db = getFirestore();
+  const docRef = doc(db, "users", userId); // Get document reference
   await updateDoc(doc(db, "users", userId, { userData }));
 };
 
